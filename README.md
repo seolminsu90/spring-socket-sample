@@ -5,7 +5,8 @@
 
 #### 기본적인 클라이언트   
 
-socket connect 시에 headers로 인증하여 사용한다.   
+socket connect 시에 headers로 인증하여 사용한다.
+자세한건 **client.html**을 열어보면 된다.
 
 ```javascript
 const socket = new SockJS('http://localhost:9000/ws');
@@ -21,7 +22,7 @@ stompClient.connect(headers, (frame) => {
     })
 
     // 서버/클라의 content-type 이 맞아야한다?
-    stompClient.send('/app/send', { 'content-type': 'text/plain' }, 'Hello, Stomp!');
+    stompClient.send('/pub/send', { 'content-type': 'text/plain' }, 'Hello, Stomp!');
 }, (error) => {
     console.log('연결실패');
     console.log(error)
@@ -44,4 +45,5 @@ stompClient.connect(headers, (frame) => {
 - 토픽별 권한, 유저 자동 매핑 등등 기능이 많은데 그냥 최대한 로우레벨에서 처리해도 무방할 것 같음
 - 토픽별 권한은 캐싱된 권한 테이블 정보로 send시 destination과 authorization header role과 비교해서 처리할 수있을 것 같음
 - 유저 정보는 authorization header로 충분
+- 구독 시 권한체크 등을 통해 message channel을 구분해도 될 것 같다.
 - 기타 등등 처리는 그때그떄..

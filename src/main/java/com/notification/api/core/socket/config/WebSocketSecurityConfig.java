@@ -12,7 +12,7 @@ import org.springframework.security.messaging.access.intercept.MessageMatcherDel
 public class WebSocketSecurityConfig {
 
     // Http 요청을 처리하는 WebSecurity 처럼
-    // Message endpoint마다 권한설정 할 수 있지만 잘 안됨. 연결 이후에는 꼭 필요한 기능이 아니므로 우선 PASS
+    // Message endpoint마다 권한설정 할 수 있지만 현재의 구조에서는 필요 없다. (연결에서만 인증을 받는 구조)
     // 세부적인건 어짜피 DB나 데이터 구조로 처리할 수 있을 것 같다.
 
     // @Bean
