@@ -22,7 +22,7 @@ public class StompController {
     }
 
     @MessageMapping("/send")
-    public void sendMessageToTopic(Message message, MessageHeaders messageHeaders,
+    public void sendMessageToTopic(Message<?> message, MessageHeaders messageHeaders,
                                    StompHeaderAccessor stompHeaderAccessor, @Payload String payload,
                                    @Header("destination") String destination, @Headers Map<String, String> headers) {
 

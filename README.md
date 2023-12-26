@@ -1,6 +1,7 @@
 ### 웹소켓 연결 예제 프로젝트
 - Spring security + REST API
 - Stomp + websocket sample
+- simple querydsl + h2
 
 #### 기본적인 클라이언트   
 

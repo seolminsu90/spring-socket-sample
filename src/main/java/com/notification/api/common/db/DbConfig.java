@@ -1,61 +1,55 @@
 package com.notification.api.common.db;
 
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.context.annotation.PropertySource;
-//import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-//import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-//
-//import javax.sql.DataSource;
-//import java.util.Properties;
+import jakarta.persistence.EntityManagerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 
-//@Configuration
-//@PropertySource("classpath:application.yml")
+import javax.sql.DataSource;
+
+@Configuration
+@PropertySource("classpath:application.yml")
 public class DbConfig {
-//
-//
-//    @Value("${spring.datasource.url}")
-//    private String dataSourceUrl;
-//
-//    @Value("${spring.datasource.username}")
-//    private String dataSourceUsername;
-//
-//    @Value("${spring.datasource.password}")
-//    private String dataSourcePassword;
-//
-//    @Value("${spring.datasource.driver-class-name}")
-//    private String dataSourceDriverClassName;
-//
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(dataSourceDriverClassName);
-//        dataSource.setUrl(dataSourceUrl);
-//        dataSource.setUsername(dataSourceUsername);
-//        dataSource.setPassword(dataSourcePassword);
-//        return dataSource;
-//    }
-//
-//    @Bean
-//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-//        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//        em.setDataSource(dataSource);
-//        em.setPackagesToScan("your.entity.package"); // 엔터티 클래스 패키지 지정
-//
-//        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-//        em.setJpaVendorAdapter(vendorAdapter);
-//        em.setJpaProperties(hibernateProperties());
-//
-//        return em;
-//    }
-//
-//    private Properties hibernateProperties() {
-//        Properties properties = new Properties();
-//        properties.setProperty("hibernate.hbm2ddl.auto", "none");
-//        properties.setProperty("hibernate.show_sql", "true");
-//        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-//        return properties;
-//    }
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = "db.datasource")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @Primary
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("com.notification.api.core");
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+
+        return em;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
+        return transactionManager;
+    }
+
+    @Bean
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+        return new PersistenceExceptionTranslationPostProcessor();
+    }
 }

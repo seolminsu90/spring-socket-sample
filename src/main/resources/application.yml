@@ -1,9 +1,18 @@
 server:
   port: 9000
 
-spring:
+db:
   datasource:
-    url: jdbc:mysql://0.0.0.0:3308/test
-    username: root
-    password: 1234
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.h2.Driver # com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:h2:mem:test # jdbc:mysql://0.0.0.0:3308/test
+    username: sa
+    password:
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  h2:
+    console:
+      enabled: true

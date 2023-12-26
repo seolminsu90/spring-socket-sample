@@ -33,6 +33,7 @@ public class WebSecurityConfig {
                 .headers(header -> header.frameOptions(op -> op.disable()))
                 .authorizeHttpRequests(registry ->
                         registry
+                                .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/ws/**").permitAll()
                                 .requestMatchers("/topic/**", "/queue/**", "/app/**", "/test/**").permitAll()
                                 .anyRequest().authenticated()
