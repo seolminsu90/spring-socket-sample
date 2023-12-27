@@ -1,5 +1,6 @@
 package com.notification.api.common.exception;
 
+import com.notification.api.common.domain.ApiResponse;
 import com.notification.api.core.socket.domain.SocketPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +22,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleException(Exception e) {
-        e.printStackTrace();
-        return "error";
+    public ApiResponse<String> handleException(Exception e) {
+        if (log.isDebugEnabled())
+            e.printStackTrace();
+        return ApiResponse.ofMessage(StatusCode.FAIL, e.getMessage());
     }
 
     @MessageExceptionHandler(Exception.class)
@@ -31,7 +33,7 @@ public class GlobalExceptionHandler {
         if (principal != null) {
             log.error("Error ::: {} - {}", e.getMessage(), principal.getName());
 
-            SocketPayload payload = new SocketPayload(StatusCode.FAIL, "시스템", e.getMessage());
+            SocketPayload payload = new SocketPayload(StatusCode.FAIL, "Server", e.getMessage());
             messagingTemplate.convertAndSendToUser(principal.getName(), "/queue/errors", payload);
         } else {
             log.error("Error :: {}", e.getMessage());

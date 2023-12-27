@@ -15,7 +15,7 @@ public class RestDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ade)
             throws IOException {
-        ResponseWriter.write(response, "유효하지만 권한이 없는 사용자", HttpServletResponse.SC_FORBIDDEN, null);
+        ResponseWriter.write(response, "FORBIDDEN", HttpServletResponse.SC_FORBIDDEN);
     }
 
 }

@@ -7,7 +7,10 @@
             </encoder>
         </appender>
 
-        <root level="debug">
+        <logger name="org.springframework.web.socket" level="info"/>
+        <logger name="com.zaxxer.hikari.pool.HikariPool" level="info"/>
+
+        <root level="info">
             <appender-ref ref="STDOUT"/>
         </root>
     </springProfile>
@@ -34,6 +37,9 @@
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}[%-5level] %class{20}.%M %L  : %msg%n</pattern>
             </encoder>
         </appender>
+
+        <logger name="org.springframework.web.socket" level="info"/>
+        <logger name="com.zaxxer.hikari.pool.HikariPool" level="info"/>
 
         <root level="info">
             <appender-ref ref="STDOUT"/>

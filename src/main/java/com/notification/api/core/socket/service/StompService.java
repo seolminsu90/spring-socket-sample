@@ -15,4 +15,8 @@ public class StompService {
     public Set<SimpUser> getSimpUsers() {
         return simpUserRegistry.getUsers();
     }
+
+    public SimpUser getSimpUser(String userName) {
+        return simpUserRegistry.getUser(userName);
+    }
 }
