@@ -86,7 +86,8 @@
 
             const socketInit = (userName) => {
                 return new Promise((resolve, reject) => {
-                    const socket = new SockJS('http://localhost:9000/ws');
+                    //const socket = new SockJS('http://localhost:9000/ws/sockjs'); //Using socketjs
+                    const socket = new WebSocket("ws://localhost:9000/ws");
                     const options = {debug: false};
                     const stompClient = Stomp.over(socket, options);
 

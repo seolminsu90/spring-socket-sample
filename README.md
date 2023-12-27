@@ -1,7 +1,8 @@
-### 웹소켓 연결 예제 프로젝트
+### 웹 소켓 연결 예제 프로젝트 (2023-12)
+- Spring boot 3.2 + Openjdk17
 - Spring security + REST API
 - Stomp + websocket sample
-- simple querydsl + h2
+- Simple jpa / querydsl + h2
 
 #### 기본적인 클라이언트   
 

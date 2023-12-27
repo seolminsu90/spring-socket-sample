@@ -1,10 +1,12 @@
 package com.notification.api.common.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.authentication.AuthenticationManagerBeanDefinitionParser;
@@ -14,13 +16,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @AllArgsConstructor
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 
     private RestDeniedHandler restDeniedHandler;
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-    private AuthenticationTokenProcessingFilter authenticationTokenProcessingFilter;
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers("/ws/**")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -40,7 +47,7 @@ public class WebSecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterBefore(authenticationTokenProcessingFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationTokenProcessingFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(new AuthenticationManagerBeanDefinitionParser.NullAuthenticationProvider());
         return http.build();
     }
