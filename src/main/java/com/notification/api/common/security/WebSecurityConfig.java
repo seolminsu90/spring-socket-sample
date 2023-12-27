@@ -26,6 +26,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers("/ws/**")
+                .requestMatchers("/error")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
@@ -43,6 +44,7 @@ public class WebSecurityConfig {
                         registry
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/ws/**").permitAll()
+                                .requestMatchers("/error").permitAll()
                                 .requestMatchers("/topic/**", "/queue/**", "/pub/**", "/test/**").permitAll()
                                 .anyRequest().authenticated()
                 )

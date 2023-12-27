@@ -10,7 +10,7 @@ socket connect 시에 headers로 인증하여 사용한다.
 자세한건 **client.html**을 열어보면 된다.
 
 ```javascript
-const socket = new SockJS('http://localhost:9000/ws');
+const socket = new SockJS('http://localhost:9000/ws'); // 일반 소켓 연결은 /ws/socket을 이용
 let options = {debug: true};
 const stompClient = Stomp.over(socket, options);
 
