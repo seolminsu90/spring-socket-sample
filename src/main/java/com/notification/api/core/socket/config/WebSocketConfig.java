@@ -22,13 +22,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // WebSocket을 이용하는 URL
+        // Tip. Socket connect : /ws/websocket, SockJS connect : /ws
         registry
                 .addEndpoint("/ws")
-                .setAllowedOriginPatterns("*");
-        // SockJS을 이용하는 URL
-        registry
-                .addEndpoint("/ws/sockjs")
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
