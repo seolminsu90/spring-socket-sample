@@ -15,9 +15,9 @@ public class ResponseWriter {
         response.setStatus(code);
 
         StringBuilder json = new StringBuilder();
-        json.append("{\"code\" : " + code + " , \"msg\" : \"" + msg + "\"");
+        json.append("{\"code\" : ").append(code).append(" , \"msg\" : \"").append(msg).append("\"");
         if (token != null)
-            json.append(",\"token\" : \"" + token + " \"");
+            json.append(",\"token\" : \"").append(token).append(" \"");
 
         json.append("}");
 

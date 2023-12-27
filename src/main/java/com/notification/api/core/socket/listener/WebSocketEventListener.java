@@ -39,7 +39,7 @@ public class WebSocketEventListener {
     public void handleSessionUnsubscribe(SessionUnsubscribeEvent event) {
         if (log.isDebugEnabled()) {
             StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
-            log.info("Subscribed ::: {}, Target {}", event.getUser(), accessor.getDestination());
+            log.info("Unsubscribed ::: {}, Target {}", event.getUser(), accessor.getDestination());
         }
     }
 }

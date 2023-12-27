@@ -23,8 +23,6 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String url = httpRequest.getRequestURI();
-        log.info(url);
 
         String authenticationStr = getAuthentication(httpRequest);
         if (authenticationStr != null) {

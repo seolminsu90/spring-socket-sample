@@ -28,10 +28,8 @@ public class JWTUtil {
         c.add(Calendar.MINUTE, expireMinutes);
         dt = c.getTime();
 
-        String accessToken = Jwts.builder().setClaims(claims).setExpiration(dt)
+        return Jwts.builder().setClaims(claims).setExpiration(dt)
                 .signWith(SignatureAlgorithm.HS512, JWT_SIGN_KEY).compact();
-
-        return accessToken;
     }
 
     @SuppressWarnings("unchecked")
