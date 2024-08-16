@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Stomp JavaScript Client</title>
-  </head>
-  <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
-    <script>
-      const socket = new WebSocket("ws://localhost:9000/ws/websocket");
-      const options = { debug: false };
-      const stompClient = Stomp.over(socket, options);
-      const headers = { Authorization: "Hello world" };
+<script>
+    const socket = () => new WebSocket("ws://localhost:9000/ws/websocket");
+    const options = {debug: false};
+    const stompClient = Stomp.over(socket, options);
+    const headers = {Authorization: "Hello world"};
 
-      const onConnect = (frame) => {
+    const onConnect = (frame) => {
         console.log("Connected:", frame);
 
         stompClient.subscribe("/topic/notification-topic", (message) => {
-          console.log("Received message:", message.body);
+            console.log("Received message:", message.body);
         });
 
         stompClient.send(
-          "/topic/notification-topic",
-          {},
-          JSON.stringify({ sender: "Ghost", message: "나는 다른 브라우저에 있읍니다." })
+            "/topic/notification-topic",
+            {},
+            JSON.stringify({sender: "Ghost", message: "나는 다른 브라우저에 있읍니다."})
         );
-      };
+    };
 
-      const onError = (error) => {
+    const onError = (error) => {
         console.error("Error:", error);
-      };
+    };
 
-      stompClient.connect(headers, onConnect, onError);
+    stompClient.connect(headers, onConnect, onError);
 
-      stompClient.onWebSocketClose = (event) => {
+    stompClient.onWebSocketClose = (event) => {
         console.log("Connection closed:", event);
-      };
-    </script>
-  </body>
+    };
+</script>
+</body>
 </html>
